@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:softbd_task/Controller/feed_controller.dart';
+import 'package:softbd_task/Views/add_new.dart';
 
 import '../Commons/custom_widgets.dart';
 import '../consts/colors.dart';
@@ -98,7 +99,9 @@ class _FeedViewScreenState extends State<FeedViewScreen> {
           CustomView().printHeader(fontSize: 16, textData: "আজ, ${feedController.convertToBengaliDate(DateTime.now())}"),
           CustomView().customButton(
               textData: "নতুন যোগ করুন",
-              onTap: (value){ },
+              onPressed:() {
+                Get.to(const AddNewPage());
+              },
               fontSize: 12, borderRadius: 30, height: 29.0,width: 100,elevation: 1)
         ],
       ),
@@ -157,7 +160,7 @@ class _FeedViewScreenState extends State<FeedViewScreen> {
                          mainAxisAlignment: MainAxisAlignment.center,
                          crossAxisAlignment: CrossAxisAlignment.center,
                          children: [
-                           CustomView().printlightText(fontSize: 14, textData: feedController.dates[index]["day"]),
+                           CustomView().printLightText(fontSize: 14, textData: feedController.dates[index]["day"]),
                            CustomView().printHeader(fontSize: 16, textData: feedController.dates[index]["date"])
                          ],
                        ),
@@ -196,11 +199,13 @@ class _FeedViewScreenState extends State<FeedViewScreen> {
            SpaceHelper.verticalSpace5,
            SizedBox(
              height: 329.h,
-             child: ListView.builder(
+             child: Obx(()=>feedController.fetchingStories.value?const Center(child: CircularProgressIndicator(color: ColorHelper.darkGreen,),):
+                 ListView.builder(
                  padding: EdgeInsets.zero,
                  physics:const BouncingScrollPhysics(),
-                 itemCount: 5,
+                 itemCount: feedController.allStoriesWithDate.length,
                  itemBuilder: (BuildContext context, int index) {
+                   var story=feedController.allStoriesWithDate[index].data[0];
                    return Padding(
                      padding: const EdgeInsets.symmetric(vertical: 4.0),
                      child: Row(
@@ -208,9 +213,9 @@ class _FeedViewScreenState extends State<FeedViewScreen> {
                        children: [
                          Column(
                            children: [
-                             CustomView().printMediumText(fontSize: 14, textData: "সকাল",color: index%2==0?const Color(
+                             CustomView().printMediumText(fontSize: 14, textData: story.date.toString().substring(19,25),color: index%2==0?const Color(
                                  0xFF202020):const Color(0xFF2A61EE)),
-                             CustomView().printMediumText(fontSize: 14, textData: "১১:০০ মি.",color: index%2==0?const Color(
+                             CustomView().printMediumText(fontSize: 14, textData: story.date.toString().substring(0,5),color: index%2==0?const Color(
                                  0xFF202020):const Color(0xFF2A61EE))
                            ],
                          ),
@@ -226,11 +231,37 @@ class _FeedViewScreenState extends State<FeedViewScreen> {
                                ),
                                borderRadius: BorderRadius.circular(10)
                            ),
+                           child: Padding(
+                             padding: const EdgeInsets.all(10.0),
+                             child: Column(
+                               crossAxisAlignment: CrossAxisAlignment.start,
+                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                               children: [
+                                 Row(
+                                   children: [
+                                     Icon(Icons.access_time,color: Colors.white,size: 15.sp,),
+                                     SpaceHelper.horizontalSpace5,
+                                     CustomView().printMediumText(fontSize: 12, textData: story.date.toString().substring(0,5),color: Colors.white)
+                                   ],
+                                 ),
+                                 CustomView().printMediumText(fontSize: 14,
+                                     textData:story.name,color: Colors.white ),
+                                 CustomView().printMediumText(fontSize: 12, textData: story.category,color: Colors.white),
+                                 Row(
+                                   children: [
+                                     Icon(Icons.location_on_outlined,color: Colors.white,size: 15.sp,),
+                                     SpaceHelper.horizontalSpace5,
+                                     CustomView().printMediumText(fontSize: 12, textData: story.location,color: Colors.white)
+                                   ],
+                                 ),
+                               ],
+                             ),
+                           ),
                          )
                        ],
                      ),
                    );
-                 }),
+                 })),
            )
          ],
        ),

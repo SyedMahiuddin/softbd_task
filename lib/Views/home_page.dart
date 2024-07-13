@@ -100,13 +100,13 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomView().printHeader(fontSize: 20, textData: "মোঃ মোহাইমেনুল রেজা"),
-                CustomView().printlightText(fontSize: 14, textData: "সফটবিডি লিমিটেড"),
+                CustomView().printLightText(fontSize: 14, textData: "সফটবিডি লিমিটেড"),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomView().printImage(height: 16, width: 16, path: "assets/images/mapPoint.png"),
                     SpaceHelper.horizontalSpace5,
-                    CustomView().printlightText(fontSize: 14, textData: "ঢাকা"),
+                    CustomView().printLightText(fontSize: 14, textData: "ঢাকা"),
                   ],
                 )
               ],

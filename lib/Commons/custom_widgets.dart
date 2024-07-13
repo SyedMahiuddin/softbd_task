@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 import '../consts/colors.dart';
 import '../consts/space_helper.dart';
@@ -17,12 +16,12 @@ Widget printHeader({required int fontSize, required String textData}){
   return Text(textData,style: TextStyle(fontWeight: FontWeight.bold,fontSize: fontSize.sp),);
 }
 
-Widget printlightText({required int fontSize, required String textData}){
-  return Text(textData,style: TextStyle(fontWeight: FontWeight.normal,fontSize: fontSize.sp),);
+Widget printLightText({required int fontSize, required String textData}){
+  return Text(textData,textAlign:TextAlign.center,style: TextStyle(fontWeight: FontWeight.normal,fontSize: fontSize.sp),);
 }
 
 Widget printMediumText({required int fontSize, required String textData, Color? color}){
-  return Text(textData,style: TextStyle(fontWeight: FontWeight.w600,fontSize: fontSize.sp,color: color ?? Colors.black),);
+  return Text( overflow: TextOverflow.ellipsis,maxLines: 4,textData,style: TextStyle(fontWeight: FontWeight.w600,fontSize: fontSize.sp,color: color ?? Colors.black),);
 }
 
 // ignore: non_constant_identifier_names
@@ -76,7 +75,7 @@ Widget singleTextContainer(
 }
 
 
-Widget customButton({required String textData, required OnTap onTap, required double fontSize, required double borderRadius, required double height, required double width, required double elevation}){
+Widget customButton({required String textData, required double fontSize,required VoidCallback onPressed, required double borderRadius, required double height, required double width, required double elevation}){
   return SizedBox(
     height: height.h,
     width: width.w,
@@ -90,9 +89,7 @@ Widget customButton({required String textData, required OnTap onTap, required do
         ),
         elevation: MaterialStateProperty.all<double>(elevation.sp),
       ),
-      onPressed: (){
-
-      },
+      onPressed:  onPressed,
       child: Ink(
         decoration: BoxDecoration(
           gradient:const LinearGradient(
@@ -117,4 +114,5 @@ Widget customButton({required String textData, required OnTap onTap, required do
     ),
   );
 }
+
 }
