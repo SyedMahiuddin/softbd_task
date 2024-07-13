@@ -67,28 +67,28 @@ void filterStoriesByDate()async{
        if(selectedDateIndex.value==index)
          {
            dayNumber=i;
-           print("dayNumber: ${dayNumber.toString()}");
          }
        index++;
      }
     for(var story in allStories)
       {
         DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(story.data[0].date) * 1000);
-        print("${dateTime.toString()}     ${DateTime.now().toString()}");
+       // print("${dateTime.toString()}     ${DateTime.now().toString()}");
         if(dateTime.day==DateTime.now().add(Duration(days: dayNumber)).day)
           {
             filteredStories.add(story);
           }
       }
 }
+  // ignore: non_constant_identifier_names
   String formatDateTimes({required bool time, required bool am_pm, required String date}){
     String value="";
       DateFormat dateFormat = DateFormat('yyyy-MM-dd hh:mm a');
       DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(date) * 1000);
       String formattedDateTime= dateFormat.format(dateTime);
-      String formattedDate = "${dateTime.day}-${dateTime.month}-${dateTime.year}";
+     // String formattedDate = "${dateTime.day}-${dateTime.month}-${dateTime.year}";
       String formattedTime = "${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')} :${dateTime.second.toString().padLeft(2, '0')}";
-      print(formattedDate);
+      //print(formattedDate);
       if(time)
         {
           value= formattedTime.substring(0,5);

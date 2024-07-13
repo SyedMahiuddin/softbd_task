@@ -38,6 +38,7 @@ class _FeedViewScreenState extends State<FeedViewScreen> {
      _scrollToIndex(7);
    });
    feedController.selectedDateIndex.value=7;
+   feedController.filterStoriesByDate();
  }
   @override
   Widget build(BuildContext context) {
