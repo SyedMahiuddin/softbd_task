@@ -1,6 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import '../consts/colors.dart';
 import '../consts/space_helper.dart';
 
 class CustomView{
@@ -18,8 +21,8 @@ Widget printlightText({required int fontSize, required String textData}){
   return Text(textData,style: TextStyle(fontWeight: FontWeight.normal,fontSize: fontSize.sp),);
 }
 
-Widget printMediumText({required int fontSize, required String textData}){
-  return Text(textData,style: TextStyle(fontWeight: FontWeight.w600,fontSize: fontSize.sp),);
+Widget printMediumText({required int fontSize, required String textData, Color? color}){
+  return Text(textData,style: TextStyle(fontWeight: FontWeight.w600,fontSize: fontSize.sp,color: color ?? Colors.black),);
 }
 
 // ignore: non_constant_identifier_names
@@ -72,4 +75,46 @@ Widget singleTextContainer(
   );
 }
 
+
+Widget customButton({required String textData, required OnTap onTap, required double fontSize, required double borderRadius, required double height, required double width, required double elevation}){
+  return SizedBox(
+    height: height.h,
+    width: width.w,
+    child: ElevatedButton(
+      style: ButtonStyle(
+        padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(0)),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(borderRadius),
+          ),
+        ),
+        elevation: MaterialStateProperty.all<double>(elevation.sp),
+      ),
+      onPressed: (){
+
+      },
+      child: Ink(
+        decoration: BoxDecoration(
+          gradient:const LinearGradient(
+            colors: [ColorHelper.darkGreen, ColorHelper.lightGreen],
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+          ),
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        child: Container(
+          constraints: BoxConstraints(minWidth: width.w, minHeight: height.h),
+          alignment: Alignment.center,
+          child: Text(
+            textData,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: fontSize.sp,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
 }

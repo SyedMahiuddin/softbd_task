@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -12,27 +12,36 @@ import '../Views/feed_view.dart';
 class BottomNav extends StatelessWidget {
    BottomNav({Key? key}) : super(key: key);
 
-  ViewController viewController=Get.put(ViewController());
+ final ViewController viewController=Get.put(ViewController());
+
+   final List<Widget> _screens = [
+     HomePage(),
+     const FeedViewScreen(),
+   ];
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 99.h,
-      width: MediaQuery.of(context).size.width,
-      child: Stack(
-        children: [
-          SizedBox(
-            height: 99.h,
-            width: MediaQuery.of(context).size.width
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: _buildNavigators(context),
-          ),
-          Positioned(
-           top: 6.h,
-              left: (MediaQuery.of(context).size.width/2)-34.w,
-              child: _buildCameraButton())
-        ],
+    return Scaffold(
+      body: Obx(()=>_screens[viewController.pageIndex.value]),
+      bottomNavigationBar: SizedBox(
+        height: 99.h,
+        width: MediaQuery.of(context).size.width,
+        child: Stack(
+          children: [
+            Container(
+                height: 99.h,
+                width: MediaQuery.of(context).size.width,
+              color:ColorHelper.backWhite,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: _buildNavigators(context),
+            ),
+            Positioned(
+                top: 6.h,
+                left: (MediaQuery.of(context).size.width/2)-34.w,
+                child: _buildCameraButton())
+          ],
+        ),
       ),
     );
   }
@@ -58,7 +67,6 @@ class BottomNav extends StatelessWidget {
                 Obx(()=>InkWell(
                     onTap:(){
                       viewController.pageIndex.value=0;
-                      Get.offAll(HomePage());
                     },
                     child: CustomView().printImage(height: 20, width: 20,
                         path:viewController.pageIndex.value==0? "assets/icons/bottomicons/home1.png":
@@ -66,7 +74,6 @@ class BottomNav extends StatelessWidget {
                 Obx(()=> InkWell(
                    onTap: (){
                      viewController.pageIndex.value=1;
-                     Get.offAll(FeedViewScreen());
                    },
                    child: CustomView().printImage(height: 20, width: 20,
                        path:viewController.pageIndex.value==1? "assets/icons/bottomicons/calendar1.png":

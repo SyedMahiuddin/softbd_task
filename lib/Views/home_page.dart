@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:softbd_task/Commons/bottom_nav.dart';
 import 'package:softbd_task/Commons/custom_widgets.dart';
 import 'package:softbd_task/consts/colors.dart';
 import 'package:softbd_task/consts/space_helper.dart';
@@ -11,7 +10,7 @@ import '../Controller/view_controller.dart';
 
 class HomePage extends StatelessWidget {
    HomePage({Key? key}) : super(key: key);
-  ViewController viewController=Get.put(ViewController());
+  final ViewController viewController=Get.put(ViewController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,9 +34,7 @@ class HomePage extends StatelessWidget {
 
             ],
           )),
-          Align(
-            alignment: Alignment.bottomCenter,
-              child: BottomNav())
+
         ],
       ),
     );
@@ -59,8 +56,8 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Icon(Icons.menu,size: 30.sp,),
-                   CustomView().printImage(height: 40, width: 40, path: "assets/icons/iconImages/demo.png"),
-                    Text("Flutter Task",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.sp),)
+                    CustomView().printImage(height: 40, width: 40, path: "assets/icons/iconImages/demo.png"),
+                    CustomView().printHeader(fontSize: 18, textData: "Flutter Task"),
                   ],
                 ),
               ),
@@ -75,37 +72,46 @@ class HomePage extends StatelessWidget {
   Widget _buildIdView(){
     return Padding(
       padding:  EdgeInsets.all(12.sp),
-      child: Card(
-        color: ColorHelper.frontWhite,
-        child: SizedBox(
-          height: 98.h,width: 327.w,
-          child: Row(
-            children: [
-              SpaceHelper.horizontalSpace10,
-              CircleAvatar(
-                backgroundColor: ColorHelper.frontWhite,
-                radius: 40.sp,
-                backgroundImage:const AssetImage("assets/images/person.png"),
-              ),
-              SpaceHelper.horizontalSpace10,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomView().printHeader(fontSize: 20, textData: "মোঃ মোহাইমেনুল রেজা"),
-                  CustomView().printlightText(fontSize: 14, textData: "সফটবিডি লিমিটেড"),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomView().printImage(height: 16, width: 16, path: "assets/images/mapPoint.png"),
-                      SpaceHelper.horizontalSpace5,
-                      CustomView().printlightText(fontSize: 14, textData: "ঢাকা"),
-                    ],
-                  )
-                ],
-              )
-            ],
-          ),
+      child: Container(
+        height: 98.h,width: 327.w,
+        decoration: BoxDecoration(
+          color: ColorHelper.frontWhite,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 1,
+              offset:const Offset(0, 1),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            SpaceHelper.horizontalSpace10,
+            CircleAvatar(
+              backgroundColor: ColorHelper.frontWhite,
+              radius: 40.sp,
+              backgroundImage:const AssetImage("assets/images/person.png"),
+            ),
+            SpaceHelper.horizontalSpace10,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomView().printHeader(fontSize: 20, textData: "মোঃ মোহাইমেনুল রেজা"),
+                CustomView().printlightText(fontSize: 14, textData: "সফটবিডি লিমিটেড"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomView().printImage(height: 16, width: 16, path: "assets/images/mapPoint.png"),
+                    SpaceHelper.horizontalSpace5,
+                    CustomView().printlightText(fontSize: 14, textData: "ঢাকা"),
+                  ],
+                )
+              ],
+            )
+          ],
         ),
       ),
     );
