@@ -150,6 +150,7 @@ class _FeedViewScreenState extends State<FeedViewScreen> {
                    child: InkWell(
                      onTap: (){
                        feedController.selectedDateIndex.value=index;
+                        feedController.filterStoriesByDate();
                      },
                      child: Container(
                        decoration: BoxDecoration(
@@ -203,9 +204,9 @@ class _FeedViewScreenState extends State<FeedViewScreen> {
                  ListView.builder(
                  padding: EdgeInsets.zero,
                  physics:const BouncingScrollPhysics(),
-                 itemCount: feedController.allStoriesWithDate.length,
+                 itemCount: feedController.filteredStories.length,
                  itemBuilder: (BuildContext context, int index) {
-                   var story=feedController.allStoriesWithDate[index].data[0];
+                   var story=feedController.filteredStories[index].data[0];
                    return Padding(
                      padding: const EdgeInsets.symmetric(vertical: 4.0),
                      child: Row(
@@ -213,9 +214,11 @@ class _FeedViewScreenState extends State<FeedViewScreen> {
                        children: [
                          Column(
                            children: [
-                             CustomView().printMediumText(fontSize: 14, textData: story.date.toString().substring(19,25),color: index%2==0?const Color(
+                             CustomView().printMediumText(fontSize: 14,
+                         textData:feedController.formatDateTimes(time: true, am_pm: false, date: story.date.toString()) ,color: index%2==0?const Color(
                                  0xFF202020):const Color(0xFF2A61EE)),
-                             CustomView().printMediumText(fontSize: 14, textData: story.date.toString().substring(0,5),color: index%2==0?const Color(
+                             CustomView().printMediumText(fontSize: 14,
+                                 textData: feedController.formatDateTimes(time: false, am_pm: true, date: story.date.toString()),color: index%2==0?const Color(
                                  0xFF202020):const Color(0xFF2A61EE))
                            ],
                          ),
@@ -241,7 +244,8 @@ class _FeedViewScreenState extends State<FeedViewScreen> {
                                    children: [
                                      Icon(Icons.access_time,color: Colors.white,size: 15.sp,),
                                      SpaceHelper.horizontalSpace5,
-                                     CustomView().printMediumText(fontSize: 12, textData: story.date.toString().substring(0,5),color: Colors.white)
+                                     CustomView().printMediumText(fontSize: 12,
+                                         textData: feedController.formatDateTimes(time: true, am_pm: false, date: story.date.toString()),color: Colors.white)
                                    ],
                                  ),
                                  SizedBox(

@@ -39,7 +39,8 @@ class FeedController extends GetxController{
 var selectedDateIndex=7.obs;
 var dates=[].obs;
 var allStories=[].obs;
-var allStoriesWithDate=[].obs;
+var filteredStories=[].obs;
+var filteredStoriesWithDate=[].obs;
 var fetchingStories=false.obs;
 
   @override
@@ -53,23 +54,51 @@ var fetchingStories=false.obs;
     fetchingStories.value=true;
     allStories.clear();
     allStories.value=await FeedRepository().fetchStoryModels();
-    formatDateTimes();
+    filterStoriesByDate();
     fetchingStories.value=false;
   }
-
-  void formatDateTimes(){
-    allStoriesWithDate.value=allStories;
-    int i=0;
-    for(var story in allStories){
+  
+void filterStoriesByDate()async{
+    filteredStories.clear();
+    int dayNumber=0;
+    int index=0;
+   for(int i=-7;i<=7;i++)
+     {
+       if(selectedDateIndex.value==index)
+         {
+           dayNumber=i;
+           print("dayNumber: ${dayNumber.toString()}");
+         }
+       index++;
+     }
+    for(var story in allStories)
+      {
+        DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(story.data[0].date) * 1000);
+        print("${dateTime.toString()}     ${DateTime.now().toString()}");
+        if(dateTime.day==DateTime.now().add(Duration(days: dayNumber)).day)
+          {
+            filteredStories.add(story);
+          }
+      }
+}
+  String formatDateTimes({required bool time, required bool am_pm, required String date}){
+    String value="";
       DateFormat dateFormat = DateFormat('yyyy-MM-dd hh:mm a');
-      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(story.data[0].date) * 1000);
+      DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(date) * 1000);
       String formattedDateTime= dateFormat.format(dateTime);
       String formattedDate = "${dateTime.day}-${dateTime.month}-${dateTime.year}";
       String formattedTime = "${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')} :${dateTime.second.toString().padLeft(2, '0')}";
+      print(formattedDate);
+      if(time)
+        {
+          value= formattedTime.substring(0,5);
+        }
+      else if(am_pm)
+        {
+          value= formattedDateTime.toString().contains("AM")?"সকাল":"দুপুর";
+        }
+      return value;
 
-      allStoriesWithDate[i].data[0].date="${convertTimeToBengali(formattedTime)} $formattedDate ${formattedDateTime.contains("AM")?"সকাল   ":"দুপুর"}";
-      i++;
-    }
   }
 
   String convertTimeToBengali(String time) {
