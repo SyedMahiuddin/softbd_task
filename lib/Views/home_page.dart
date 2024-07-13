@@ -162,6 +162,7 @@ class HomePage extends StatelessWidget {
                   width: 100.w, // Adjust the size of the progress indicator
                   height: 100.w,
                   child: CircularProgressIndicator(
+                    strokeCap: StrokeCap.square,
                     strokeWidth: 10.sp,
                     value: 0.2,
                     valueColor:const AlwaysStoppedAnimation<Color>(ColorHelper.darkGreen,),

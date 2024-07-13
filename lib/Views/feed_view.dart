@@ -244,8 +244,11 @@ class _FeedViewScreenState extends State<FeedViewScreen> {
                                      CustomView().printMediumText(fontSize: 12, textData: story.date.toString().substring(0,5),color: Colors.white)
                                    ],
                                  ),
-                                 CustomView().printMediumText(fontSize: 14,
-                                     textData:story.name,color: Colors.white ),
+                                 SizedBox(
+                                   height: 70.h,
+                                   child: CustomView().printMediumText(fontSize: 14,
+                                       textData:story.name,color: Colors.white ),
+                                 ),
                                  CustomView().printMediumText(fontSize: 12, textData: story.category,color: Colors.white),
                                  Row(
                                    children: [
